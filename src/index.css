@@ -1,0 +1,505 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Toast theme variables that automatically detect light/dark mode */
+:root {
+  /* Light mode defaults */
+  --toast-bg: #ffffff;
+  --toast-border: #e5e7eb;
+  --toast-text: #000000;
+}
+
+/* Dark mode detection using media query */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --toast-bg: #1f2937;
+    --toast-border: #374151;
+    --toast-text: #ffffff;
+  }
+}
+
+/* Theme-specific overrides that match each theme's actual surface colors */
+.theme-studio-light {
+  --toast-bg: #d8d4c1;        /* Studio light surface color */
+  --toast-border: #c0bebb;     /* Studio light border color */
+  --toast-text: #302e2f;      /* Studio light text color */
+  --clear-button-bg: #b25e43;
+  --clear-button-hover: #9d5139;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Studio Light */
+  --scrollbar-track: #ece9e2;     /* Background color */
+  --scrollbar-thumb: #c0bebb;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #a19f9a; /* Thumb hover (muted text color) */
+}
+
+.theme-studio-dark {
+  --toast-bg: #1a1a1a;        /* Studio dark surface color */
+  --toast-border: #6b6b69;     /* Studio dark border color */
+  --toast-text: #c5bebb;      /* Studio dark text color */
+  --clear-button-bg: #a66044;
+  --clear-button-hover: #c07555;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Studio Dark */
+  --scrollbar-track: #242424;     /* Background color */
+  --scrollbar-thumb: #6b6b69;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #c5bebb; /* Thumb hover (text color) */
+}
+
+.theme-platinum-light {
+  --toast-bg: #fafafa;         /* Platinum light surface color */
+  --toast-border: #dcdbdc;     /* Platinum light border color */
+  --toast-text: #2f2f2f;      /* Platinum light text color */
+  --clear-button-bg: #515559;
+  --clear-button-hover: #30302f;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Platinum Light */
+  --scrollbar-track: #fbfbfb;     /* Background color */
+  --scrollbar-thumb: #dcdbdc;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #cfd0d2; /* Thumb hover */
+}
+
+.theme-platinum-dark {
+  --toast-bg: #2d2d2d;         /* Platinum dark surface color */
+  --toast-border: #555554;     /* Platinum dark border color */
+  --toast-text: #e7e7e7;      /* WHITE TEXT for Platinum dark (reverted back to original) */
+  --clear-button-bg: #c2c4c6;
+  --clear-button-hover: #bebebe;
+  --clear-button-text: #0e0c0a;
+  
+  /* Scrollbar colors for Platinum Dark */
+  --scrollbar-track: #040404;     /* Background color */
+  --scrollbar-thumb: #555554;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #6a6a6a; /* Thumb hover */
+}
+
+.theme-carbon-light {
+  --toast-bg: #f7f7f8;         /* Carbon light surface color */
+  --toast-border: #d0d0d0;     /* Carbon light border color */
+  --toast-text: #2d2d2d;      /* Carbon light text color */
+  --clear-button-bg: #7178cb;
+  --clear-button-hover: #438fdc;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Carbon Light */
+  --scrollbar-track: #f9f9f9;     /* Background color */
+  --scrollbar-thumb: #d0d0d0;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #c6c5c3; /* Thumb hover */
+}
+
+.theme-carbon-dark {
+  --toast-bg: #121313;         /* Carbon dark surface color */
+  --toast-border: #3b3b3c;     /* Carbon dark border color */
+  --toast-text: #e8e8e9;      /* Carbon dark text color */
+  --clear-button-bg: #5d68be;
+  --clear-button-hover: #646bbd;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Carbon Dark */
+  --scrollbar-track: #0d0d0d;     /* Background color */
+  --scrollbar-thumb: #3b3b3c;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #656667; /* Thumb hover */
+}
+
+.theme-arctic-light {
+  --toast-bg: #f9fafb;         /* Arctic light surface color */
+  --toast-border: #e5e7eb;     /* Arctic light border color */
+  --toast-text: #111827;      /* Arctic light text color */
+  --clear-button-bg: #2563eb;
+  --clear-button-hover: #1d4ed8;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Arctic Light */
+  --scrollbar-track: #ffffff;     /* Background color */
+  --scrollbar-thumb: #e5e7eb;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #d1d5db; /* Thumb hover */
+}
+
+.theme-arctic-dark {
+  --toast-bg: #1f2937;         /* Arctic dark surface color */
+  --toast-border: #374151;     /* Arctic dark border color */
+  --toast-text: #f9fafb;      /* Arctic dark text color */
+  --clear-button-bg: #3b82f6;
+  --clear-button-hover: #2563eb;
+  --clear-button-text: #ffffff;
+  
+  /* Scrollbar colors for Arctic Dark */
+  --scrollbar-track: #111827;     /* Background color */
+  --scrollbar-thumb: #374151;     /* Thumb color (border color) */
+  --scrollbar-thumb-hover: #4b5563; /* Thumb hover */
+}
+
+/* CUSTOM SCROLLBARS - Theme-aware and beautiful */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Webkit scrollbars for Chromium-based browsers */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+  border: 1px solid var(--scrollbar-track);
+  transition: all 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  transform: scale(1.1);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
+/* Specific scrollbar styling for main content areas */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+  background: var(--scrollbar-thumb-hover);
+}
+
+.main-content-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+  opacity: 0.8;
+}
+
+.main-content-scroll::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* FORCE toast styling with maximum specificity to override Sonner defaults */
+[data-sonner-toaster] [data-sonner-toast] {
+  background: var(--toast-bg) !important;
+  border: 1px solid var(--toast-border) !important;
+  color: var(--toast-text) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 16px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  direction: ltr !important; /* Force LTR for toasts */
+  text-align: left !important;
+}
+
+/* Force override for all toast types with maximum specificity */
+[data-sonner-toaster] [data-sonner-toast][data-type="success"],
+[data-sonner-toaster] [data-sonner-toast][data-type="error"],
+[data-sonner-toaster] [data-sonner-toast][data-type="info"],
+[data-sonner-toaster] [data-sonner-toast][data-type="warning"],
+[data-sonner-toaster] [data-sonner-toast][data-type="loading"],
+[data-sonner-toaster] [data-sonner-toast][data-type="default"] {
+  background: var(--toast-bg) !important;
+  border: 1px solid var(--toast-border) !important;
+  color: var(--toast-text) !important;
+  border-left: 1px solid var(--toast-border) !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Force text colors with maximum specificity */
+[data-sonner-toaster] [data-sonner-toast] [data-title] {
+  color: var(--toast-text) !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  flex: 1 !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast] [data-description] {
+  color: var(--toast-text) !important;
+  opacity: 0.8 !important;
+  margin: 4px 0 0 0 !important;
+  font-size: 14px !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Force close button styling */
+[data-sonner-toaster] [data-sonner-toast] [data-close-button] {
+  position: static !important;
+  right: auto !important;
+  top: auto !important;
+  margin: 0 !important;
+  padding: 4px !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--toast-text) !important;
+  opacity: 0.6 !important;
+  cursor: pointer !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  order: 2 !important;
+  margin-left: auto !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast] [data-close-button]:hover {
+  opacity: 1 !important;
+  background: var(--toast-border) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Force content wrapper styling */
+[data-sonner-toaster] [data-sonner-toast] [data-content] {
+  flex: 1 !important;
+  min-width: 0 !important;
+  order: 1 !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Force loading spinner styling */
+[data-sonner-toaster] [data-sonner-toast] [data-icon] {
+  color: var(--toast-text) !important;
+  opacity: 0.8 !important;
+  margin-right: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Clear All Button - POSITIONED IN TOP AREA OF VIEWPORT */
+[data-clear-all-button] {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  background: var(--clear-button-bg) !important;
+  color: var(--clear-button-text) !important;
+  padding: 14px 28px !important;
+  border-radius: 20px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(20px) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  opacity: 0.95 !important;
+  font-family: inherit !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+  pointer-events: auto !important;
+  min-width: 180px !important;
+  justify-content: center !important;
+  height: 56px !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  border: 3px solid rgba(255, 255, 255, 0.2) !important;
+  direction: ltr !important; /* Force LTR for clear button */
+  text-align: center !important;
+}
+
+[data-clear-all-button]:hover {
+  opacity: 1 !important;
+  transform: translateY(-6px) scale(1.1) !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4) !important;
+  background: var(--clear-button-hover) !important;
+}
+
+[data-clear-all-button] svg {
+  width: 20px !important;
+  height: 20px !important;
+  color: var(--clear-button-text) !important;
+  flex-shrink: 0 !important;
+  stroke-width: 3.5 !important;
+}
+
+/* Enhanced exit animations for graceful clearing */
+[data-sonner-toast].toast-clearing {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: translateX(100%) scale(0.95) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Smooth entrance animation for Clear All button */
+[data-clear-all-button].entering {
+  animation: clearButtonEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes clearButtonEnter {
+  from {
+    opacity: 0 !important;
+    transform: translateY(-30px) scale(0.8) !important;
+  }
+  to {
+    opacity: 0.95 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+}
+
+/* Smooth exit animation for Clear All button */
+[data-clear-all-button].exiting {
+  animation: clearButtonExit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes clearButtonExit {
+  from {
+    opacity: 0.95 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+  to {
+    opacity: 0 !important;
+    transform: translateY(-30px) scale(0.8) !important;
+  }
+}
+
+/* TipTap Editor - FORCE LTR for English */
+.ProseMirror {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: normal !important;
+}
+
+.ProseMirror * {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5rem !important;
+  padding-right: 0 !important;
+  text-align: left !important;
+}
+
+.ProseMirror li {
+  text-align: left !important;
+}
+
+.ProseMirror p,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  text-align: left !important;
+  direction: ltr !important;
+}
+
+/* CRITICAL FIX: TipTap Placeholder Text - Force visibility in ALL themes */
+.ProseMirror .is-editor-empty:first-child::before {
+  content: "Start writing your content..." !important;
+  float: left !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  direction: ltr !important;
+  font-style: italic !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Theme-specific placeholder colors - UPDATED FOR PLATINUM DARK */
+.theme-studio-light .ProseMirror .is-editor-empty:first-child::before {
+  color: #a19f9a !important; /* Studio light muted text */
+}
+
+.theme-studio-dark .ProseMirror .is-editor-empty:first-child::before {
+  color: #6b6b69 !important; /* Studio dark muted text */
+}
+
+.theme-platinum-light .ProseMirror .is-editor-empty:first-child::before {
+  color: #7b7b7b !important; /* Platinum light muted text */
+}
+
+.theme-platinum-dark .ProseMirror .is-editor-empty:first-child::before {
+  color: #9c9c9b !important; /* Platinum dark muted text - keep this for contrast */
+}
+
+.theme-carbon-light .ProseMirror .is-editor-empty:first-child::before {
+  color: #a1a1a1 !important; /* Carbon light muted text */
+}
+
+.theme-carbon-dark .ProseMirror .is-editor-empty:first-child::before {
+  color: #656567 !important; /* Carbon dark muted text */
+}
+
+.theme-arctic-light .ProseMirror .is-editor-empty:first-child::before {
+  color: #6b7280 !important; /* Arctic light muted text */
+}
+
+.theme-arctic-dark .ProseMirror .is-editor-empty:first-child::before {
+  color: #9ca3af !important; /* Arctic dark muted text */
+}
+
+/* Additional placeholder selectors for maximum coverage */
+.ProseMirror p.is-editor-empty:first-child::before,
+.ProseMirror .is-empty::before,
+.ProseMirror [data-placeholder]::before {
+  content: "Start writing your content..." !important;
+  float: left !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  direction: ltr !important;
+  font-style: italic !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Force placeholder visibility in all scenarios */
+.tiptap-editor .ProseMirror .is-editor-empty::before,
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before,
+.tiptap-editor .ProseMirror .is-empty::before {
+  content: "Start writing your content..." !important;
+  float: left !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  direction: ltr !important;
+  font-style: italic !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Specific fix for all dark modes */
+.theme-studio-dark .tiptap-editor .ProseMirror .is-editor-empty::before,
+.theme-platinum-dark .tiptap-editor .ProseMirror .is-editor-empty::before,
+.theme-carbon-dark .tiptap-editor .ProseMirror .is-editor-empty::before,
+.theme-arctic-dark .tiptap-editor .ProseMirror .is-editor-empty::before {
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
