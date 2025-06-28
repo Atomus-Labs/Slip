@@ -5,6 +5,7 @@ import { Note } from '../types';
 import { formatDate, createNewNote, generateId } from '../utils/noteUtils';
 import { NoteThumbnail } from './NoteThumbnail';
 import { NoteOptionsMenu } from './NoteOptionsMenu';
+import { NotificationShade } from './NotificationShade';
 import { useTheme } from '../contexts/ThemeContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -36,6 +37,9 @@ export function HomeMenu({
   
   // Recent Notes Dropdown State
   const [recentNotesOpen, setRecentNotesOpen] = useState(false);
+  
+  // Notification state
+  const [notifications, setNotifications] = useLocalStorage<any[]>('notifications', []);
   
   // Update time every minute to keep greeting accurate
   useEffect(() => {
@@ -221,6 +225,61 @@ export function HomeMenu({
     </div>
   );
 
+  // Notification handlers
+  const handleMarkAsRead = (id: string) => {
+    setNotifications(prev => 
+      prev.map(n => n.id === id ? { ...n, read: true } : n)
+    );
+  };
+
+  const handleMarkAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
+  const handleDismissNotification = (id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
+
+  const handleClearAllNotifications = () => {
+    setNotifications([]);
+  };
+
+  // Add sample notifications for demo (you can remove this)
+  useEffect(() => {
+    if (notifications.length === 0) {
+      const sampleNotifications = [
+        {
+          id: '1',
+          type: 'info' as const,
+          category: 'tip' as const,
+          title: 'Tip: Use keyboard shortcuts',
+          message: 'Press Ctrl+N to create a new note quickly.',
+          timestamp: new Date(),
+          read: false
+        },
+        {
+          id: '2',
+          type: 'success' as const,
+          category: 'update' as const,
+          title: 'App Updated',
+          message: 'Slip has been updated with new features and improvements.',
+          timestamp: new Date(Date.now() - 300000), // 5 minutes ago
+          read: false
+        },
+        {
+          id: '3',
+          type: 'warning' as const,
+          category: 'sync' as const,
+          title: 'Sync Status',
+          message: 'Your notes are syncing in the background.',
+          timestamp: new Date(Date.now() - 600000), // 10 minutes ago
+          read: false
+        }
+      ];
+      setNotifications(sampleNotifications);
+    }
+  }, []);
+
   return (
     <div className={`flex-1 overflow-y-auto ${currentTheme.colors.surface}`}>
       <div className="max-w-6xl mx-auto p-8">
@@ -333,6 +392,17 @@ export function HomeMenu({
                   })}
                 </span>
               </div>
+            </div>
+            
+            {/* Notification Shade in top right */}
+            <div className="ml-8">
+              <NotificationShade
+                notifications={notifications}
+                onMarkAsRead={handleMarkAsRead}
+                onMarkAllAsRead={handleMarkAllAsRead}
+                onDismiss={handleDismissNotification}
+                onClearAll={handleClearAllNotifications}
+              />
             </div>
           </div>
 

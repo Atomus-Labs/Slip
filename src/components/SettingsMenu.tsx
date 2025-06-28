@@ -411,7 +411,7 @@ export function SettingsMenu({ isOpen, onClose }: SettingsMenuProps) {
                 <Info size={24} className={currentTheme.colors.accent.replace('bg-', 'text-')} />
               </div>
               <h3 className={`text-lg font-semibold ${currentTheme.colors.text} mb-2`}>
-                Slip v1.0
+                Slip 1.0
               </h3>
               <p className={`${currentTheme.colors.textMuted} max-w-md mx-auto mb-4`}>
                 Beautiful, distraction-free Slip-taking with powerful organization features.
