@@ -3,6 +3,7 @@ import { Settings, X, User, Bell, Shield, Database, Palette, Keyboard, Info, Dow
 import { toast } from 'sonner';
 import { useTheme } from '../contexts/ThemeContext';
 import { useBooleanSetting } from '../hooks/useLocalStorage';
+import { checkForUpdates, CURRENT_VERSION } from '../utils/versionUtils';
 
 interface SettingsMenuProps {
   isOpen: boolean;
@@ -148,20 +149,41 @@ export function SettingsMenu({ isOpen, onClose }: SettingsMenuProps) {
   }, [isOpen, onClose]);
 
   // Manual update check function
-  const handleCheckForUpdates = () => {
+  const handleCheckForUpdates = async () => {
     toast.promise(
-      // Simulate checking for updates
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve('No updates available');
-        }, 2000);
-      }),
+      checkForUpdates(),
       {
         loading: 'Checking for updates...',
-        success: 'You\'re running the latest version!',
-        error: 'Failed to check for updates'
+        success: (result) => {
+          if (result.hasUpdate) {
+            return `Update available: v${result.latestVersion}`;
+          }
+          return `You're running the latest version (v${CURRENT_VERSION})`;
+        },
+        error: (err) => {
+          // Provide more specific error messages
+          if (err.message?.includes('404')) {
+            return 'No releases found in repository yet';
+          }
+          return 'Failed to check for updates. Please try again later.';
+        }
       }
-    );
+    ).then((result) => {
+      if (result.hasUpdate && result.releaseInfo) {
+        // Show update notification with download link
+        toast.info(
+          `New version v${result.latestVersion} is available!`,
+          {
+            description: 'Click to download the latest release',
+            action: {
+              label: 'Download',
+              onClick: () => window.open(result.releaseInfo!.html_url, '_blank')
+            },
+            duration: 10000 // Show for 10 seconds
+          }
+        );
+      }
+    });
   };
 
   if (!isOpen) return null;

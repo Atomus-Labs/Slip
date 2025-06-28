@@ -258,6 +258,7 @@ export function TipTapEditor({ note, onUpdateNote }: TipTapEditorProps) {
       '[#c2c4c6]': '#c2c4c6',
       
       // Carbon theme colors
+      // Around line 255-270, keep only one instance:
       '[#f9f9f9]': '#f9f9f9',
       '[#f7f7f8]': '#f7f7f8',
       '[#d0d0d0]': '#d0d0d0',

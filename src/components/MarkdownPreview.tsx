@@ -457,3 +457,4 @@ export function MarkdownPreview({ note, title }: MarkdownPreviewProps) {
     </div>
   );
 }
+// Keep only the first instance on line 87, remove the one on line 96

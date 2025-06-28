@@ -623,7 +623,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [currentThemeId, setCurrentThemeId] = useLocalStorage<string>('notion-theme', 'studio-light');
+  const [currentThemeId, setCurrentThemeId] = useLocalStorage<string>('notion-theme', 'arctic-light');
   const [themeIntensity, setThemeIntensityState] = useLocalStorage<number>('theme-intensity', 75);
   
   // Handle migration from old theme names (including amber)
@@ -651,7 +651,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
   
   const validThemeId = migrateThemeId(currentThemeId);
-  const baseTheme = themes.find(theme => theme.id === validThemeId) || themes.find(theme => theme.id === 'studio-light') || themes[0];
+  const baseTheme = themes.find(theme => theme.id === validThemeId) || themes.find(theme => theme.id === 'arctic-light') || themes[0];
   const currentTheme = adjustThemeIntensity(baseTheme, themeIntensity);
 
   const setTheme = (themeId: string) => {

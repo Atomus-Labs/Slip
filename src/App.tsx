@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TipTapEditor } from './components/TipTapEditor';
 import { HomeMenu } from './components/HomeMenu';
@@ -10,6 +10,8 @@ import { useTheme } from './contexts/ThemeContext';
 import { Note } from './types';
 import { createNewNote } from './utils/noteUtils';
 import { FileText, Plus, Edit3 } from 'lucide-react';
+import { useUpdateChecker } from './hooks/useUpdateChecker';
+import { useBooleanSetting } from './hooks/useLocalStorage';
 
 function App() {
   const [notes, setNotes] = useLocalStorage<Note[]>('notion-notes', []);
@@ -21,7 +23,11 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const { currentTheme } = useTheme();
-
+  
+  // Add these lines:
+  const [autoUpdatesEnabled] = useBooleanSetting('auto-updates-enabled', true);
+  useUpdateChecker(autoUpdatesEnabled);
+  
   // Initialize with a welcome note if no notes exist
   useEffect(() => {
     if (notes.length === 0) {
